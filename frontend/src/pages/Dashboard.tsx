@@ -37,7 +37,7 @@ const StarRating = ({
 
 export const Dashboard = () => {
   const { auth, setAuth } = useAuthContext();
-  const { tasks, setTasks } = useTaskContext();
+  const { tasks } = useTaskContext();
   const logoutMutation = useLogoutMutation({});
   const queryClient = useQueryClient();
 
