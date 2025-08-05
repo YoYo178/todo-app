@@ -1,7 +1,16 @@
 {
-  "name": "frontend",
-  "private": true,
-  "version": "0.0.0",
+  "name": "todo-app-frontend",
+  "description": "A very basic todo app frontend.",
+  "homepage": "https://yoyo178.github.io/todo-app",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "-_YoYo178_-"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YoYo178/todo-app"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

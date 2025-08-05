@@ -1,6 +1,16 @@
 {
-  "name": "express-gen-ts",
-  "version": "0.0.0",
+  "name": "todo-app-backend",
+  "description": "A very basic todo app backend.",
+  "homepage": "https://yoyo178.github.io/todo-app",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "-_YoYo178_-"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YoYo178/todo-app"
+  },
   "scripts": {
     "build": "ts-node ./scripts/build.ts",
     "clean-install": "rm -rf ./node_modules && rm -r package-lock.json && pnpm i",
