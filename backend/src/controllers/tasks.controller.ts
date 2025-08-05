@@ -25,7 +25,7 @@ export const getTask = async (req: Request, res: Response, next: NextFunction) =
 export const createTask = async (req: Request, res: Response, next: NextFunction) => {
     const { title, description, rating } = req.body as TCreateTaskBody;
 
-    const task = await Task.create({ title, description, rating });
+    const task = await Task.create({ userId: req.user.id, title, description, rating });
 
     res.status(HttpStatusCodes.CREATED).json({ success: true, message: 'Task created successfully', data: { task } });
 }
