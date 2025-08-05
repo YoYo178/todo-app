@@ -1,4 +1,4 @@
-import { TTokenConfig } from "@src/types/jwt.types";
+import { TTokenConfig } from "@src/types";
 
 export const tokenConfig: TTokenConfig = {
     accessToken: {

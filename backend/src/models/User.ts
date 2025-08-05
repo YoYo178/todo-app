@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import { IUser } from '../types/user.types'
-import { MongooseModel } from '@src/utils/db.utils';
+import { IUser } from '../types'
+import { MongooseModel } from '@src/utils';
 
 const userSchema = new mongoose.Schema<IUser>({
     name: { type: String, required: true },
