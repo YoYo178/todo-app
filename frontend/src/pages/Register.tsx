@@ -44,40 +44,43 @@ export const Register = () => {
     }, [signupMutation.isSuccess])
 
     return (
-        <div className="h-screen w-screen flex items-center justify-center">
-            <Card className="w-[360px]">
-                <CardContent className="py-8">
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                        <div className="space-y-1">
-                            <Label htmlFor="name">Name</Label>
-                            <Input id="name" type="text" {...register("name")} />
-                            {errors.name && (
-                                <p className="text-sm text-red-500">{errors.name.message}</p>
-                            )}
-                        </div>
-                        <div className="space-y-1">
-                            <Label htmlFor="email">Email</Label>
-                            <Input id="email" type="email" {...register("email")} />
-                            {errors.email && (
-                                <p className="text-sm text-red-500">{errors.email.message}</p>
-                            )}
-                        </div>
-                        <div className="space-y-1">
-                            <Label htmlFor="password">Password</Label>
-                            <Input id="password" type="password" {...register("password")} />
-                            {errors.password && (
-                                <p className="text-sm text-red-500">{errors.password.message}</p>
-                            )}
-                        </div>
-                        <Button type="submit" className="w-full" disabled={isSubmitting}>
-                            {isSubmitting ? "Registering..." : "Register"}
-                        </Button>
-                    </form>
-                    <p className="text-center text-sm mt-4">
-                        Already have an account? <Link to="/login" className="text-blue-600" state={{ from: location.pathname }} replace>Login</Link>
-                    </p>
-                </CardContent>
-            </Card>
-        </div>
+        <>
+            <title>Register | TodoApp</title>
+            <div className="h-screen w-screen flex items-center justify-center">
+                <Card className="w-[360px]">
+                    <CardContent className="py-8">
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                            <div className="space-y-1">
+                                <Label htmlFor="name">Name</Label>
+                                <Input id="name" type="text" {...register("name")} />
+                                {errors.name && (
+                                    <p className="text-sm text-red-500">{errors.name.message}</p>
+                                )}
+                            </div>
+                            <div className="space-y-1">
+                                <Label htmlFor="email">Email</Label>
+                                <Input id="email" type="email" {...register("email")} />
+                                {errors.email && (
+                                    <p className="text-sm text-red-500">{errors.email.message}</p>
+                                )}
+                            </div>
+                            <div className="space-y-1">
+                                <Label htmlFor="password">Password</Label>
+                                <Input id="password" type="password" {...register("password")} />
+                                {errors.password && (
+                                    <p className="text-sm text-red-500">{errors.password.message}</p>
+                                )}
+                            </div>
+                            <Button type="submit" className="w-full" disabled={isSubmitting}>
+                                {isSubmitting ? "Registering..." : "Register"}
+                            </Button>
+                        </form>
+                        <p className="text-center text-sm mt-4">
+                            Already have an account? <Link to="/login" className="text-blue-600" state={{ from: location.pathname }} replace>Login</Link>
+                        </p>
+                    </CardContent>
+                </Card>
+            </div>
+        </>
     );
 };

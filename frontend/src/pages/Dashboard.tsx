@@ -119,57 +119,60 @@ export const Dashboard = () => {
   const [taskToEdit, setTaskToEdit] = useState<any>(null);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-xl font-semibold">Welcome, {auth?.name || 'User'}</h1>
-        <Button variant="outline" onClick={handleLogout}>
-          Log out
-        </Button>
+    <>
+      <title>Dashboard | TodoApp</title>
+      <div className="min-h-screen bg-gray-50 p-6">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-xl font-semibold">Welcome, {auth?.name || 'User'}</h1>
+          <Button variant="outline" onClick={handleLogout}>
+            Log out
+          </Button>
+        </div>
+
+        {/* Add button + heading */}
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-bold">Your Tasks</h2>
+          <Button onClick={handleAdd}>+ Add Task</Button>
+        </div>
+
+        {/* Task list */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {tasks.map((task) => (
+            <Card key={task._id} className="relative">
+              <CardContent className="pt-6 pb-4">
+                <h3 className="text-lg font-semibold mb-1">{task.title}</h3>
+                <p className="text-gray-600 text-sm mb-3">{task.description}</p>
+
+                <StarRating
+                  rating={task.rating || 0}
+                  onRate={(r) => updateRating(task._id, r)}
+                />
+
+                <div className="flex justify-end gap-2 mt-2">
+                  <Button variant="outline" size="sm" onClick={() => handleEdit(task._id)}>
+                    Edit
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => handleDelete(task._id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        <TaskModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          onSave={handleSaveTask}
+          mode={modalMode}
+          task={taskToEdit}
+        />
       </div>
-
-      {/* Add button + heading */}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-bold">Your Tasks</h2>
-        <Button onClick={handleAdd}>+ Add Task</Button>
-      </div>
-
-      {/* Task list */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {tasks.map((task) => (
-          <Card key={task._id} className="relative">
-            <CardContent className="pt-6 pb-4">
-              <h3 className="text-lg font-semibold mb-1">{task.title}</h3>
-              <p className="text-gray-600 text-sm mb-3">{task.description}</p>
-
-              <StarRating
-                rating={task.rating || 0}
-                onRate={(r) => updateRating(task._id, r)}
-              />
-
-              <div className="flex justify-end gap-2 mt-2">
-                <Button variant="outline" size="sm" onClick={() => handleEdit(task._id)}>
-                  Edit
-                </Button>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => handleDelete(task._id)}
-                >
-                  Delete
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-      <TaskModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onSave={handleSaveTask}
-        mode={modalMode}
-        task={taskToEdit}
-      />
-    </div>
+    </>
   );
 };
