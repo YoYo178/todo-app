@@ -10,6 +10,7 @@ import { NodeEnvs } from '@src/common/constants';
 import APIRouter from './routes';
 import { CORSConfig } from './config';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 
 /******************************************************************************
@@ -22,6 +23,7 @@ const app = express();
 // **** Middleware **** //
 
 app.use(cors(CORSConfig))
+app.use(cookieParser())
 
 // Basic middleware
 app.use(express.json());
