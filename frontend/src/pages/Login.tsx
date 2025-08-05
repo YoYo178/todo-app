@@ -9,6 +9,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useLoginMutation } from "@/hooks/network/auth/useLoginMutation";
 import { useEffect } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useQueryClient } from "@tanstack/react-query";
 
 const loginSchema = z.object({
     email: z.email(),
@@ -29,6 +30,7 @@ export const Login = () => {
     const location = useLocation();
     const loginMutation = useLoginMutation({ queryKey: ['auth'] });
     const { setAuth } = useAuthContext();
+    const queryClient = useQueryClient();
 
     const onSubmit = async (data: LoginForm) => {
         await loginMutation.mutateAsync({ payload: data })
@@ -41,6 +43,7 @@ export const Login = () => {
         if (!loginMutation.isSuccess)
             alert("Error logging in");
         else {
+            queryClient.invalidateQueries({ queryKey: ['tasks'] })
             alert("Login success!");
             setAuth(loginMutation.data?.data?.user || null)
         }

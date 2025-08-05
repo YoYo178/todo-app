@@ -52,6 +52,7 @@ export const Dashboard = () => {
 
     setAuth(null);
     queryClient.invalidateQueries({ queryKey: ['auth'] });
+    queryClient.invalidateQueries({ queryKey: ['tasks'] });
 
     alert("Logged out!");
     navigate("/login");

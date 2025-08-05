@@ -5,6 +5,7 @@ import { useGetTasksQuery } from "../hooks/network/tasks/useGetTasksQuery";
 
 import type { ITask } from "../types/task.types";
 import type { ReactSetState } from "../types/react.types";
+import { useAuthContext } from "./AuthContext";
 
 interface TaskProviderProps {
     children: ReactNode;
@@ -18,15 +19,18 @@ interface TaskValues {
 export const TaskContext = createContext<TaskValues | null>(null)
 
 export const TaskProvider: FC<TaskProviderProps> = ({ children }) => {
+    const { auth } = useAuthContext();
+    const isLoggedIn = !!auth;
+
     const [tasks, setTasks] = useState<ITask[]>([])
     const { data, error } = useGetTasksQuery({ queryKey: ['tasks'] });
 
     useEffect(() => {
-        if (!data)
+        if (!data || !isLoggedIn)
             return;
 
         setTasks(data?.data?.tasks || []);
-    }, [data])
+    }, [data, isLoggedIn])
 
     if (error) {
         if ((error as AxiosError).status !== 401)
