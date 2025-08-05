@@ -2,7 +2,7 @@ import logger from 'jet-logger';
 
 import ENV from '@src/common/ENV';
 import server from './server';
-import { connectDB } from './config/db.config';
+import { connectDB } from './config';
 
 
 /******************************************************************************
