@@ -3,7 +3,7 @@ import type { Request, Response, NextFunction } from "express"
 import HttpStatusCodes from "@src/common/HttpStatusCodes";
 
 import { cookieConfig, tokenConfig } from "@src/config";
-import { User } from "@src/models/User";
+import { User } from "@src/models/user.model";
 import { TVerifyAuthReturn } from "@src/types";
 import { generateAccessToken, verifyAccessToken, verifyRefreshToken } from "@src/utils";
 

@@ -1,6 +1,6 @@
 import HttpStatusCodes from "@src/common/HttpStatusCodes"
 import { TLoginBody, TSignUpBody } from "@src/schemas/auth.schema";
-import { User } from "@src/models/User";
+import { User } from "@src/models/user.model";
 import type { Request, Response, NextFunction } from "express";
 import bcrypt from 'bcrypt';
 import { generateAccessToken, generateRefreshToken } from "@src/utils";
