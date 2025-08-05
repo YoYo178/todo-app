@@ -31,12 +31,12 @@ jobs:
       # Install Yarn V4
       - name: Install Yarn v4
         run: |
-          corepack prepare yarn@stable --activate
-          yarn --version
+          corepack prepare pnpm@latest --activate
+          pnpm --version
 
       # Install Dependencies
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install
 
       # Build project
       - name: Build project
