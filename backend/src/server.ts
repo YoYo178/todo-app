@@ -7,6 +7,9 @@ import ENV from '@src/common/ENV';
 import HttpStatusCodes from '@src/common/HttpStatusCodes';
 import { RouteError } from '@src/common/util/route-errors';
 import { NodeEnvs } from '@src/common/constants';
+import APIRouter from './routes';
+import { CORSConfig } from './config';
+import cors from 'cors';
 
 
 /******************************************************************************
@@ -17,6 +20,8 @@ const app = express();
 
 
 // **** Middleware **** //
+
+app.use(cors(CORSConfig))
 
 // Basic middleware
 app.use(express.json());
@@ -34,6 +39,8 @@ if (ENV.NodeEnv === NodeEnvs.Production) {
     app.use(helmet());
   }
 }
+
+app.use('/api', APIRouter)
 
 // Add error handler
 app.use((err: Error, _: Request, res: Response, next: NextFunction) => {
