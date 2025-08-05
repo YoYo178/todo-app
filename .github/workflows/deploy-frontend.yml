@@ -29,8 +29,8 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      # Install Yarn V4
-      - name: Install Yarn v4
+      # Install latest version of PNPM
+      - name: Install PNPM
         run: |
           corepack prepare pnpm@latest --activate
           pnpm --version
@@ -41,7 +41,7 @@ jobs:
 
       # Build project
       - name: Build project
-        run: yarn build
+        run: pnpm build
 
       # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
