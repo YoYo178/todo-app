@@ -72,3 +72,7 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
 
     res.status(HttpStatusCodes.OK).json({ success: true, message: 'Created user successfully!', data: { user: rest } })
 }
+
+export const getMe = async (req: Request, res: Response, next: NextFunction) => {
+    res.status(HttpStatusCodes.OK).json({ success: true, message: 'You are logged in', data: { user: req.user } })
+}
