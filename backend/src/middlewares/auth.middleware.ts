@@ -76,7 +76,7 @@ const verifyAuth = async (refreshToken?: string, accessToken?: string): Promise<
 }
 
 export const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
-    const { accessToken, refreshToken } = req.cookies;
+    const { accessToken, refreshToken } = req.cookies || {};
 
     const authDetails = await verifyAuth(refreshToken, accessToken);
 
