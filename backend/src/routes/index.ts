@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import { requireAuth } from "@src/middlewares/auth.middleware";
+import { requireAuth } from '@src/middlewares/auth.middleware';
 
-import AuthRouter from "./auth.routes";
-import TaskRouter from "./task.routes";
+import AuthRouter from './auth.routes';
+import TaskRouter from './task.routes';
 
 const APIRouter = Router();
 

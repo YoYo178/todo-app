@@ -22,8 +22,8 @@ const app = express();
 
 // **** Middleware **** //
 
-app.use(cors(CORSConfig))
-app.use(cookieParser())
+app.use(cors(CORSConfig));
+app.use(cookieParser());
 
 // Basic middleware
 app.use(express.json());
@@ -42,7 +42,7 @@ if (ENV.NodeEnv === NodeEnvs.Production) {
   }
 }
 
-app.use('/api', APIRouter)
+app.use('/api', APIRouter);
 
 // Add error handler
 app.use((err: Error, _: Request, res: Response, next: NextFunction) => {

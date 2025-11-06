@@ -1,3 +1,3 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-export type DBRef<T> = T extends Array<infer U> ? mongoose.Schema.Types.ObjectId[] | U[] : mongoose.Schema.Types.ObjectId | T;
+export type DBRef<T> = T extends (infer U)[] ? mongoose.Schema.Types.ObjectId[] | U[] : mongoose.Schema.Types.ObjectId | T;
