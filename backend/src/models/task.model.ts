@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
-import { ITask } from '../types'
-import { MongooseModel } from '@src/utils';
+import { ITask } from '../types';
 
 const taskSchema = new mongoose.Schema<ITask>({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -9,4 +8,4 @@ const taskSchema = new mongoose.Schema<ITask>({
     rating: { type: Number, min: 0, max: 5 }
 }, { timestamps: true })
 
-export const Task = MongooseModel<ITask>('Task', taskSchema);
+export const Task = mongoose.model<ITask>('Task', taskSchema);
