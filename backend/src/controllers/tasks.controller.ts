@@ -1,4 +1,4 @@
-import HttpStatusCodes from '@src/common/HttpStatusCodes';
+import HTTP_STATUS_CODES from '@src/common/HTTP_STATUS_CODES';
 import { Task } from '@src/models/task.model';
 import { TCreateTaskBody, TTaskIdParams, TUpdateTaskBody } from '@src/schemas/task.schema';
 import type { Request, Response } from 'express';
@@ -6,7 +6,7 @@ import type { Request, Response } from 'express';
 export const getAllTasks = async (req: Request, res: Response) => {
   const tasks = await Task.find({ userId: req.user.id });
 
-  res.status(HttpStatusCodes.OK).json({ success: true, data: { tasks } });
+  res.status(HTTP_STATUS_CODES.Ok).json({ success: true, data: { tasks } });
 };
 
 export const getTask = async (req: Request, res: Response) => {
@@ -15,11 +15,11 @@ export const getTask = async (req: Request, res: Response) => {
   const task = await Task.findById(taskId);
 
   if (!task) {
-    res.status(HttpStatusCodes.NOT_FOUND).json({ success: false, error: 'No task found by the specified ID!' });
+    res.status(HTTP_STATUS_CODES.NotFound).json({ success: false, error: 'No task found by the specified ID!' });
     return;
   }
 
-  res.status(HttpStatusCodes.OK).json({ success: true, data: { task } });
+  res.status(HTTP_STATUS_CODES.Ok).json({ success: true, data: { task } });
 };
 
 export const createTask = async (req: Request, res: Response) => {
@@ -27,7 +27,7 @@ export const createTask = async (req: Request, res: Response) => {
 
   const task = await Task.create({ userId: req.user.id, title, description, rating });
 
-  res.status(HttpStatusCodes.CREATED).json({ success: true, message: 'Task created successfully', data: { task } });
+  res.status(HTTP_STATUS_CODES.Created).json({ success: true, message: 'Task created successfully', data: { task } });
 };
 
 export const updateTask = async (req: Request, res: Response) => {
@@ -37,7 +37,7 @@ export const updateTask = async (req: Request, res: Response) => {
   const task = await Task.findById(taskId);
 
   if (!task) {
-    res.status(HttpStatusCodes.NOT_FOUND).json({ success: false, error: 'No task found by the specified ID!' });
+    res.status(HTTP_STATUS_CODES.NotFound).json({ success: false, error: 'No task found by the specified ID!' });
     return;
   }
 
@@ -52,7 +52,7 @@ export const updateTask = async (req: Request, res: Response) => {
 
   await task.save();
 
-  res.status(HttpStatusCodes.OK).json({ success: true, message: 'Updated task successfully', data: { task } });
+  res.status(HTTP_STATUS_CODES.Ok).json({ success: true, message: 'Updated task successfully', data: { task } });
 };
 
 export const deleteTask = async (req: Request, res: Response) => {
@@ -61,9 +61,9 @@ export const deleteTask = async (req: Request, res: Response) => {
   const task = await Task.findOneAndDelete({ _id: taskId, userId: req.user.id });
 
   if (!task) {
-    res.status(HttpStatusCodes.NOT_FOUND).json({ success: false, error: 'No task found by the specified ID!' });
+    res.status(HTTP_STATUS_CODES.NotFound).json({ success: false, error: 'No task found by the specified ID!' });
     return;
   }
 
-  res.status(HttpStatusCodes.OK).json({ success: true, message: 'Deleted task successfully' });
+  res.status(HTTP_STATUS_CODES.Ok).json({ success: true, message: 'Deleted task successfully' });
 };

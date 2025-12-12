@@ -4,9 +4,9 @@ import express, { Request, Response, NextFunction } from 'express';
 import logger from 'jet-logger';
 
 import ENV from '@src/common/ENV';
-import HttpStatusCodes from '@src/common/HttpStatusCodes';
+import HTTP_STATUS_CODES from '@src/common/HTTP_STATUS_CODES';
 import { RouteError } from '@src/common/util/route-errors';
-import { NodeEnvs } from '@src/common/constants';
+import { NODE_ENVS } from '@src/common/constants';
 import APIRouter from './routes';
 import { CORSConfig } from './config';
 import cors from 'cors';
@@ -30,12 +30,12 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // Show routes called in console during development
-if (ENV.NodeEnv === NodeEnvs.Dev) {
+if (ENV.NodeEnv === NODE_ENVS.Dev) {
   app.use(morgan('dev'));
 }
 
 // Security
-if (ENV.NodeEnv === NodeEnvs.Production) {
+if (ENV.NodeEnv === NODE_ENVS.Production) {
   // eslint-disable-next-line n/no-process-env
   if (!process.env.DISABLE_HELMET) {
     app.use(helmet());
@@ -46,10 +46,10 @@ app.use('/api', APIRouter);
 
 // Add error handler
 app.use((err: Error, _: Request, res: Response, next: NextFunction) => {
-  if (ENV.NodeEnv !== NodeEnvs.Test.valueOf()) {
+  if (ENV.NodeEnv !== NODE_ENVS.Test.valueOf()) {
     logger.err(err, true);
   }
-  let status = HttpStatusCodes.BAD_REQUEST;
+  let status = HTTP_STATUS_CODES.BadRequest;
   if (err instanceof RouteError) {
     status = err.status;
     res.status(status).json({ error: err.message });

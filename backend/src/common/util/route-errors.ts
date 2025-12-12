@@ -1,6 +1,6 @@
 import { IParseObjectError } from 'jet-validators/utils';
 
-import HttpStatusCodes from '@src/common/HttpStatusCodes';
+import HTTP_STATUS_CODES, { HttpStatusCodes } from '@src/common/HTTP_STATUS_CODES';
 
 
 /******************************************************************************
@@ -24,7 +24,7 @@ export class RouteError extends Error {
  */
 export class ValidationError extends RouteError {
 
-  public static MESSAGE = 'The parseObj() function discovered one or ' + 
+  public static MESSAGE = 'The parseObj() function discovered one or ' +
     'more errors.';
 
   public constructor(errors: IParseObjectError[]) {
@@ -32,6 +32,6 @@ export class ValidationError extends RouteError {
       message: ValidationError.MESSAGE,
       errors,
     });
-    super(HttpStatusCodes.BAD_REQUEST, msg);
+    super(HTTP_STATUS_CODES.BadRequest, msg);
   }
 }

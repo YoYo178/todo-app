@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 
-import HttpStatusCodes from '@src/common/HttpStatusCodes';
+import HTTP_STATUS_CODES from '@src/common/HTTP_STATUS_CODES';
 
 import { cookieConfig, tokenConfig } from '@src/config';
 import { User } from '@src/models/user.model';
@@ -17,7 +17,7 @@ const verifyAuth = async (refreshToken?: string, accessToken?: string): Promise<
   if (!decodedRefreshToken.valid) {
     returnObj.error = {
       message: 'Invalid token, please log in again.',
-      code: HttpStatusCodes.UNAUTHORIZED,
+      code: HTTP_STATUS_CODES.Unauthorized,
     };
     return returnObj;
   }
@@ -26,7 +26,7 @@ const verifyAuth = async (refreshToken?: string, accessToken?: string): Promise<
   if (decodedRefreshToken.expired) {
     returnObj.error = {
       message: 'Token expired, please log in again.',
-      code: HttpStatusCodes.UNAUTHORIZED,
+      code: HTTP_STATUS_CODES.Unauthorized,
     };
     return returnObj;
   }
@@ -39,7 +39,7 @@ const verifyAuth = async (refreshToken?: string, accessToken?: string): Promise<
   if (!decodedAccessToken.valid) {
     returnObj.error = {
       message: 'Invalid token, please log in again.',
-      code: HttpStatusCodes.UNAUTHORIZED,
+      code: HTTP_STATUS_CODES.Unauthorized,
     };
     return returnObj;
   }
@@ -59,7 +59,7 @@ const verifyAuth = async (refreshToken?: string, accessToken?: string): Promise<
   if (!user) {
     returnObj.error = {
       message: 'User not found!',
-      code: HttpStatusCodes.NOT_FOUND,
+      code: HTTP_STATUS_CODES.NotFound,
     };
     return returnObj;
   }
@@ -87,7 +87,7 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
 
   if (authDetails.isMaliciousUser) {
     // TODO: Blacklist by IP
-    res.status(HttpStatusCodes.FORBIDDEN).json({ success: false, error: 'Malicious activity detected, you have been added to the blacklist.' });
+    res.status(HTTP_STATUS_CODES.Forbidden).json({ success: false, error: 'Malicious activity detected, you have been added to the blacklist.' });
     return;
   }
 

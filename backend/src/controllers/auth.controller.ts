@@ -1,4 +1,4 @@
-import HttpStatusCodes from '@src/common/HttpStatusCodes';
+import HTTP_STATUS_CODES from '@src/common/HTTP_STATUS_CODES';
 import { TLoginBody, TSignUpBody } from '@src/schemas/auth.schema';
 import { User } from '@src/models/user.model';
 import type { Request, Response } from 'express';
@@ -12,14 +12,14 @@ export const login = async (req: Request, res: Response) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    res.status(HttpStatusCodes.NOT_FOUND).json({ success: false, message: 'No user exists with the specified email.' });
+    res.status(HTTP_STATUS_CODES.NotFound).json({ success: false, message: 'No user exists with the specified email.' });
     return;
   }
 
   const passwordMatches = await bcrypt.compare(password, user.password);
 
   if (!passwordMatches) {
-    res.status(HttpStatusCodes.BAD_REQUEST).json({ success: false, message: 'Invalid password!' });
+    res.status(HTTP_STATUS_CODES.BadRequest).json({ success: false, message: 'Invalid password!' });
     return;
   }
 
@@ -36,7 +36,7 @@ export const login = async (req: Request, res: Response) => {
     maxAge: tokenConfig.refreshToken.expiry,
   });
 
-  res.status(HttpStatusCodes.OK).json({
+  res.status(HTTP_STATUS_CODES.Ok).json({
     success: true,
     message: 'Logged in successfully!',
     data: {
@@ -62,7 +62,7 @@ export const logout = (req: Request, res: Response) => {
     maxAge: undefined,
   });
 
-  res.status(HttpStatusCodes.OK).json({ success: true, message: 'Logged out successfully!' });
+  res.status(HTTP_STATUS_CODES.Ok).json({ success: true, message: 'Logged out successfully!' });
 };
 
 export const signup = async (req: Request, res: Response) => {
@@ -73,13 +73,13 @@ export const signup = async (req: Request, res: Response) => {
   const emailExists = !!await User.findOne({ email }).select('-password').lean();
 
   if (emailExists) {
-    res.status(HttpStatusCodes.CONFLICT).json({ success: false, message: 'An account already exists with this email!' });
+    res.status(HTTP_STATUS_CODES.Conflict).json({ success: false, message: 'An account already exists with this email!' });
     return;
   }
 
   const user = await User.create({ email, name, password: hashedPassword });
 
-  res.status(HttpStatusCodes.OK).json({
+  res.status(HTTP_STATUS_CODES.Ok).json({
     success: true,
     message: 'Created user successfully!',
     data: {
@@ -95,5 +95,5 @@ export const signup = async (req: Request, res: Response) => {
 };
 
 export const getMe = (req: Request, res: Response) => {
-  res.status(HttpStatusCodes.OK).json({ success: true, message: 'You are logged in', data: { user: req.user } });
+  res.status(HTTP_STATUS_CODES.Ok).json({ success: true, message: 'You are logged in', data: { user: req.user } });
 };
