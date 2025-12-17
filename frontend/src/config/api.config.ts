@@ -3,8 +3,11 @@ import type { Endpoints } from "../types/api.types";
 
 const isProduction = import.meta.env.PROD;
 
-export const SERVER_URL = isProduction ? 'https://sp-az.duckdns.org' : 'http://localhost:3000';
-const API_URL = isProduction ? SERVER_URL + '/task-app/api' : SERVER_URL + '/api';
+export const SERVER_URL = isProduction
+    ? import.meta.env.VITE_SERVER_URL
+    : import.meta.env.VITE_DEV_SERVER_URL;
+
+const API_URL = SERVER_URL + `${isProduction ? '/todo-app/api' : '/api'}`;
 
 export const API = axios.create({
     baseURL: API_URL

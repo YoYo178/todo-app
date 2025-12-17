@@ -11,6 +11,7 @@ import { NODE_ENVS } from './constants';
 const ENV = jetEnv({
   NodeEnv: isValueOf(NODE_ENVS),
   Port: num,
+  FrontendOrigin: str,
 
   MongodbUri: str,
 
