@@ -1,9 +1,10 @@
+import ENV from '@src/common/ENV';
 import { CorsOptions } from 'cors';
 
 const allowedOrigins = [
   'http://localhost:5173',
   'https://yoyo178.github.io',
-  'https://yoyo178.github.io/todo-app/',
+  ENV.FrontendOrigin,
 ];
 
 export const CORSConfig: CorsOptions = {
