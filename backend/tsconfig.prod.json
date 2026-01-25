@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2022",
     "module": "CommonJS",
-    "lib": ["ES2020"],                        
+    "lib": ["ES2022"],                        
     "strict": true,
     "baseUrl": "./",
-    "outDir": "temp",
+    "outDir": "dist",
     "esModuleInterop": true,                 
     "skipLibCheck": true,                     
     "forceConsistentCasingInFileNames": true,
@@ -16,15 +16,16 @@
     "sourceMap": false,
     "removeComments": true
   },
+  "ts-node": {
+    "swc": true,
+    "require": [
+      "tsconfig-paths/register",
+    ],
+  },
   "include": [
     "src/**/*.ts",
-    "config.ts"
   ],
   "exclude": [
-    "tests",
-    "src/public/",
-    "scripts",
-    "eslint.config.ts",
-    "vitest.config.js"
+    "eslint.config.ts"
   ]
 }
