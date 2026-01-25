@@ -1,10 +1,20 @@
-import { IParseObjectError } from 'jet-validators/utils';
-
 import HTTP_STATUS_CODES, { HttpStatusCodes } from '@src/common/HTTP_STATUS_CODES';
 
 
 /******************************************************************************
-                                 Classes
+                                Types
+******************************************************************************/
+
+export interface IValidationErrFormat {
+  error: string;
+  parameter: string;
+  value?: unknown;
+  'more-info'?: string;
+}
+
+
+/******************************************************************************
+                              Classes
 ******************************************************************************/
 
 /**
@@ -20,18 +30,20 @@ export class RouteError extends Error {
 }
 
 /**
- * Handle "parseObj" errors.
+ * Validation in route layer errors.
  */
-export class ValidationError extends RouteError {
+export class ValidationErr extends RouteError {
+  public static MSG = 'The following parameter was missing or invalid.';
 
-  public static MESSAGE = 'The parseObj() function discovered one or ' +
-    'more errors.';
-
-  public constructor(errors: IParseObjectError[]) {
-    const msg = JSON.stringify({
-      message: ValidationError.MESSAGE,
-      errors,
-    });
-    super(HTTP_STATUS_CODES.BadRequest, msg);
+  public constructor(parameter: string, value?: unknown, moreInfo?: string) {
+    const msgObj: IValidationErrFormat = {
+      error: ValidationErr.MSG,
+      parameter,
+      value,
+    };
+    if (!!moreInfo) {
+      msgObj['more-info'] = moreInfo;
+    }
+    super(HTTP_STATUS_CODES.BadRequest, JSON.stringify(msgObj));
   }
 }

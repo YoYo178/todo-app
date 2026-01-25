@@ -12,43 +12,45 @@
     "url": "https://github.com/YoYo178/todo-app"
   },
   "scripts": {
-    "build": "ts-node ./scripts/build.ts",
-    "clean-install": "rm -rf ./node_modules && rm -r package-lock.json && pnpm i",
-    "dev": "cross-env NODE_ENV=development ts-node ./src",
-    "dev:hot": "nodemon --exec \"pnpm run dev\" --watch ./src --ext .ts",
-    "lint": "eslint .",
-    "start": "cross-env NODE_ENV=production node -r ./config.js ./dist",
+    "build": "pnpm run lint && pnpm run no-lint-build",
+    "no-lint-build": "tsc --build tsconfig.prod.json",
+    "clean-install": "rm -rf ./node_modules && rm -r pnpm-lock.yaml && pnpm i",
+    "dev": "cross-env NODE_ENV=development node --env-file=./config/.env.development -r ts-node/register ./src",
+    "dev:hot": "cross-env NODE_ENV=development nodemon --exec \"ts-node ./src\" --watch ./src --ext .ts",
+    "lint": "eslint",
+    "start": "cross-env NODE_ENV=production node --env-file=./config/.env.production -r module-alias/register ./dist",
+    "phantom-start": "cross-env NODE_ENV=production node -r module-alias/register ./dist",
     "test": "cross-env NODE_ENV=test vitest",
     "type-check": "tsc --noEmit"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=20.6.0"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
-    "cors": "^2.8.5",
+    "cors": "^2.8.6",
     "cross-env": "^10.1.0",
     "dayjs": "^1.11.19",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "helmet": "^8.1.0",
     "inserturlparams": "^2.0.5",
-    "jet-env": "^1.1.4",
-    "jet-logger": "^2.0.1",
-    "jet-paths": "^1.1.0",
-    "jet-validators": "^1.5.0",
+    "jet-env": "^1.1.6",
+    "jet-logger": "^2.2.3",
+    "jet-paths": "^2.0.1",
+    "jet-validators": "^2.2.6",
     "jsonfile": "^6.2.0",
     "jsonwebtoken": "^9.0.3",
     "module-alias": "^2.2.3",
-    "mongoose": "^9.0.1",
+    "mongoose": "^9.1.5",
     "morgan": "^1.10.1",
-    "zod": "^4.1.13"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "@stylistic/eslint-plugin": "^5.6.1",
-    "@swc/core": "^1.15.3",
+    "@eslint/js": "^9.39.2",
+    "@stylistic/eslint-plugin": "^5.7.1",
+    "@swc/core": "^1.15.10",
     "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
@@ -59,20 +61,23 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/module-alias": "^2.0.4",
     "@types/morgan": "^1.9.10",
-    "@types/node": "^25.0.1",
+    "@types/node": "^25.0.10",
     "@types/supertest": "^6.0.3",
-    "eslint": "^9.39.1",
-    "eslint-plugin-n": "^17.23.1",
+    "eslint": "^9.39.2",
+    "eslint-plugin-n": "^17.23.2",
     "find": "^0.3.0",
-    "fs-extra": "^11.3.2",
+    "fs-extra": "^11.3.3",
     "jiti": "^2.6.1",
     "nodemon": "^3.1.11",
-    "supertest": "^7.1.4",
+    "supertest": "^7.2.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.49.0",
-    "vitest": "^4.0.15"
+    "typescript-eslint": "^8.53.1",
+    "vitest": "^4.0.18"
   },
-  "packageManager": "pnpm@10.25.0+sha512.5e82639027af37cf832061bcc6d639c219634488e0f2baebe785028a793de7b525ffcd3f7ff574f5e9860654e098fe852ba8ac5dd5cefe1767d23a020a92f501"
+  "packageManager": "pnpm@10.28.1+sha512.7d7dbbca9e99447b7c3bf7a73286afaaf6be99251eb9498baefa7d406892f67b879adb3a1d7e687fc4ccc1a388c7175fbaae567a26ab44d1067b54fcb0d6a316",
+  "_moduleAliases": {
+    "@src": "dist"
+  }
 }
