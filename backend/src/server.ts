@@ -4,7 +4,6 @@ import express, { Request, Response, NextFunction } from 'express';
 import logger from 'jet-logger';
 
 import ENV from '@src/common/ENV';
-import HTTP_STATUS_CODES, { HttpStatusCodes } from '@src/common/HTTP_STATUS_CODES';
 import { RouteError } from '@src/common/util/route-errors';
 import { NODE_ENVS } from '@src/common/constants';
 import APIRouter from './routes';
@@ -49,9 +48,8 @@ app.use((err: Error, _: Request, res: Response, next: NextFunction) => {
   if (ENV.NodeEnv !== NODE_ENVS.Test.valueOf()) {
     logger.err(err, true);
   }
-  let status: HttpStatusCodes = HTTP_STATUS_CODES.BadRequest;
   if (err instanceof RouteError) {
-    status = err.status;
+    const status = err.status;
     res.status(status).json({ error: err.message });
   }
   return next(err);
