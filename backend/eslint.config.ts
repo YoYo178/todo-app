@@ -1,10 +1,19 @@
 import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
 import nodePlugin from 'eslint-plugin-n';
 import { defineConfig } from 'eslint/config';
+import tseslint from 'typescript-eslint';
 
 export default defineConfig(
+  {
+    ignores: [
+      '**/node_modules/**',
+      '**/*.js',
+      '**/*.mjs',
+      'dist/**',
+      'eslint.config.ts'
+    ],
+  },
   eslint.configs.recommended,
   nodePlugin.configs['flat/recommended-script'],
   ...tseslint.configs.strictTypeChecked,
@@ -45,7 +54,13 @@ export default defineConfig(
       '@typescript-eslint/restrict-plus-operands': [
         'warn', { allowNumberAndString: true },
       ],
-      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        }
+      ],
       '@typescript-eslint/no-unsafe-enum-comparison': 0,
       '@typescript-eslint/no-unnecessary-type-parameters': 0,
       '@stylistic/no-extra-semi': 'warn',
@@ -81,7 +96,7 @@ export default defineConfig(
       '@typescript-eslint/no-non-null-assertion': 0,
       '@typescript-eslint/no-unused-expressions': 'warn',
       'comma-dangle': ['warn', 'always-multiline'],
-      'no-console': 1,
+      'no-console': 0,
       'no-extra-boolean-cast': 0,
       'indent': ['warn', 2],
       'quotes': ['warn', 'single'],

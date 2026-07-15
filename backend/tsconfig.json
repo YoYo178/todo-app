@@ -41,7 +41,7 @@
       "@src/*": ["./src/*"]
     },
   },
-  "exclude": [
-    "eslint.config.ts"
+  "include": [
+    "src/**/*.ts"
   ]
 }
