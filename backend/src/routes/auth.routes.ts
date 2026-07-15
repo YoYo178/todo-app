@@ -1,7 +1,7 @@
-import { getMe, login, logout, signup } from '@src/controllers/auth.controller';
-import { requireAuth } from '@src/middlewares/auth.middleware';
-import { validate } from '@src/middlewares/validation.middleware';
-import { loginSchema, signupSchema } from '@src/schemas/auth.schema';
+import { getMe, login, logout, signup } from '@src/controllers/auth.controller.js';
+import { requireAuth } from '@src/middlewares/auth.middleware.js';
+import { validate } from '@src/middlewares/validation.middleware.js';
+import { loginSchema, signupSchema } from '@src/schemas/auth.schema.js';
 import { Router } from 'express';
 
 const AuthRouter = Router();

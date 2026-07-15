@@ -1,6 +1,6 @@
-import HTTP_STATUS_CODES from '@src/common/HTTP_STATUS_CODES';
-import { Task } from '@src/models/task.model';
-import { TCreateTaskBody, TTaskIdParams, TUpdateTaskBody } from '@src/schemas/task.schema';
+import HTTP_STATUS_CODES from '@src/common/HttpStatusCodes.js';
+import { Task } from '@src/models/task.model.js';
+import type { TCreateTaskBody, TTaskIdParams, TUpdateTaskBody } from '@src/schemas/task.schema.js';
 import type { Request, Response } from 'express';
 
 export const getAllTasks = async (req: Request, res: Response) => {

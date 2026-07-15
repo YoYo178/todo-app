@@ -1,6 +1,6 @@
-import { createTask, deleteTask, getAllTasks, getTask, updateTask } from '@src/controllers/tasks.controller';
-import { validate } from '@src/middlewares/validation.middleware';
-import { createTaskSchema, taskIdParamsSchema, updateTaskSchema } from '@src/schemas/task.schema';
+import { createTask, deleteTask, getAllTasks, getTask, updateTask } from '@src/controllers/tasks.controller.js';
+import { validate } from '@src/middlewares/validation.middleware.js';
+import { createTaskSchema, taskIdParamsSchema, updateTaskSchema } from '@src/schemas/task.schema.js';
 import { Router } from 'express';
 
 const TaskRouter = Router();

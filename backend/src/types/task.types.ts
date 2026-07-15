@@ -1,5 +1,5 @@
-import { DBRef } from './db.types';
-import { IUser } from './user.types';
+import type { DBRef } from './db.types.js';
+import type { IUser } from './user.types.js';
 
 export interface ITask {
     userId: DBRef<IUser>;

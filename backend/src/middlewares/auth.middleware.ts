@@ -1,11 +1,12 @@
 import type { Request, Response, NextFunction } from 'express';
 
-import HTTP_STATUS_CODES from '@src/common/HTTP_STATUS_CODES';
+import HTTP_STATUS_CODES from '@src/common/HttpStatusCodes.js';
 
-import { cookieConfig, tokenConfig } from '@src/config';
-import { User } from '@src/models/user.model';
-import { TVerifyAuthReturn } from '@src/types';
-import { generateAccessToken, verifyAccessToken, verifyRefreshToken } from '@src/utils';
+import { cookieConfig } from '@src/config/cookies.config.js';
+import { tokenConfig } from '@src/config/jwt.config.js';
+import { User } from '@src/models/user.model.js';
+import type { TVerifyAuthReturn } from '@src/types/jwt.types.js';
+import { generateAccessToken, verifyAccessToken, verifyRefreshToken } from '@src/utils/jwt.utils.js';
 
 const verifyAuth = async (refreshToken?: string, accessToken?: string): Promise<TVerifyAuthReturn> => {
   const returnObj: TVerifyAuthReturn = { success: false, isMaliciousUser: false, data: { user: null } };
@@ -93,7 +94,7 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
 
   // Handle silent access token refresh
   if (authDetails.data.accessToken)
-    res.cookie('accessToken', authDetails.data.accessToken, { ...cookieConfig, maxAge: tokenConfig.accessToken.expiry });
+    res.cookie('accessToken', authDetails.data.accessToken, { ...cookieConfig, maxAge: tokenConfig.accessToken?.expiry ?? 3 * 60 * 60 * 1000 });
 
   if (authDetails.data.user) {
     const user = authDetails.data.user;

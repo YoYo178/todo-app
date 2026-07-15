@@ -1,4 +1,4 @@
-import { mongooseObjectId } from '@src/utils';
+import { mongooseObjectId } from '@src/utils/zod.utils.js';
 import { z } from 'zod';
 
 // Task ID param

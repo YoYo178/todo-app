@@ -1,2 +1,2 @@
-export * from './jwt.utils';
-export * from './zod.utils';
+export * from './jwt.utils.js';
+export * from './zod.utils.js';

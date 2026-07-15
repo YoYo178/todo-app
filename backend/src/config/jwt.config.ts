@@ -1,4 +1,4 @@
-import { TTokenConfig } from '@src/types';
+import type { TTokenConfig } from '@src/types/jwt.types.js';
 
 export const tokenConfig: TTokenConfig = {
   accessToken: {
@@ -7,4 +7,4 @@ export const tokenConfig: TTokenConfig = {
   refreshToken: {
     expiry: 7 * 24 * 60 * 60 * 1000, // 7 days
   },
-};
+} as const;

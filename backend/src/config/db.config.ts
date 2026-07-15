@@ -1,17 +1,16 @@
-import ENV from '@src/common/ENV';
+import ENV from '@src/common/env.js';
 import mongoose from 'mongoose';
-import logger from 'jet-logger';
 
 export const connectDB = async () => {
   try {
-    await mongoose.connect(ENV.MongodbUri);
-    logger.info('Connected to MongoDB successfully.');
+    await mongoose.connect(ENV.MONGODB_URI);
+    console.info('Connected to MongoDB successfully.');
   } catch (error) {
     let reason = 'Unknown reason';
 
     if (error instanceof Error)
       reason = error.message;
 
-    logger.err('Couldn\'t connect to MongoDB!\nReason: ' + reason);
+    console.error('Couldn\'t connect to MongoDB!\nReason: ' + reason);
   }
 };

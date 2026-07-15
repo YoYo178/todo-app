@@ -1,10 +1,11 @@
-import HTTP_STATUS_CODES from '@src/common/HTTP_STATUS_CODES';
-import { TLoginBody, TSignUpBody } from '@src/schemas/auth.schema';
-import { User } from '@src/models/user.model';
+import HTTP_STATUS_CODES from '@src/common/HttpStatusCodes.js';
+import { cookieConfig } from '@src/config/cookies.config.js';
+import { tokenConfig } from '@src/config/jwt.config.js';
+import { User } from '@src/models/user.model.js';
+import type { TLoginBody, TSignUpBody } from '@src/schemas/auth.schema.js';
+import { generateAccessToken, generateRefreshToken } from '@src/utils/jwt.utils.js';
+import argon2 from 'argon2';
 import type { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
-import { generateAccessToken, generateRefreshToken } from '@src/utils';
-import { cookieConfig, tokenConfig } from '@src/config';
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body as TLoginBody;
@@ -16,7 +17,7 @@ export const login = async (req: Request, res: Response) => {
     return;
   }
 
-  const passwordMatches = await bcrypt.compare(password, user.password);
+  const passwordMatches = await argon2.verify(user.password, password);
 
   if (!passwordMatches) {
     res.status(HTTP_STATUS_CODES.BadRequest).json({ success: false, message: 'Invalid password!' });
@@ -28,12 +29,12 @@ export const login = async (req: Request, res: Response) => {
 
   res.cookie('accessToken', accessToken, {
     ...cookieConfig,
-    maxAge: tokenConfig.accessToken.expiry,
+    maxAge: tokenConfig.accessToken?.expiry ?? 3 * 60 * 60 * 1000,
   });
 
   res.cookie('refreshToken', refreshToken, {
     ...cookieConfig,
-    maxAge: tokenConfig.refreshToken.expiry,
+    maxAge: tokenConfig.refreshToken?.expiry ?? 7 * 24 * 60 * 60 * 1000,
   });
 
   res.status(HTTP_STATUS_CODES.Ok).json({
@@ -51,7 +52,7 @@ export const login = async (req: Request, res: Response) => {
   });
 };
 
-export const logout = (req: Request, res: Response) => {
+export const logout = (_req: Request, res: Response) => {
   res.clearCookie('accessToken', {
     ...cookieConfig,
     maxAge: undefined,
@@ -68,7 +69,7 @@ export const logout = (req: Request, res: Response) => {
 export const signup = async (req: Request, res: Response) => {
   const { email, name, password } = req.body as TSignUpBody;
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await argon2.hash(password);
 
   const emailExists = !!await User.findOne({ email }).select('-password').lean();
 

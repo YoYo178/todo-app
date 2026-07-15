@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { ITask } from '../types';
+import type { ITask } from '@src/types/task.types.js';
 
 const taskSchema = new mongoose.Schema<ITask>({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },

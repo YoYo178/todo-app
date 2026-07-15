@@ -1,8 +1,6 @@
-import logger from 'jet-logger';
-
-import ENV from '@src/common/ENV';
-import server from './server';
-import { connectDB } from './config';
+import ENV from '@src/common/env.js';
+import server from './server.js';
+import { connectDB } from './config/db.config.js';
 
 
 /******************************************************************************
@@ -10,7 +8,7 @@ import { connectDB } from './config';
 ******************************************************************************/
 
 const SERVER_START_MSG = (
-  'Express server started on port: ' + ENV.Port.toString()
+  'Express server started on port: ' + ENV.PORT.toString()
 );
 
 
@@ -21,10 +19,10 @@ const SERVER_START_MSG = (
 connectDB();
 
 // Start the server
-server.listen(ENV.Port, err => {
+server.listen(ENV.PORT, (err) => {
   if (!!err) {
-    logger.err(err.message);
+    console.error(err.message);
   } else {
-    logger.info(SERVER_START_MSG);
+    console.info(SERVER_START_MSG);
   }
 });

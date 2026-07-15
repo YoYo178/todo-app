@@ -1,15 +1,13 @@
-import morgan from 'morgan';
+import express, { type NextFunction, type Request, type Response } from 'express';
 import helmet from 'helmet';
-import express, { Request, Response, NextFunction } from 'express';
-import logger from 'jet-logger';
+import morgan from 'morgan';
 
-import ENV from '@src/common/ENV';
-import { RouteError } from '@src/common/util/route-errors';
-import { NODE_ENVS } from '@src/common/constants';
-import APIRouter from './routes';
-import { CORSConfig } from './config';
-import cors from 'cors';
+import ENV, { NODE_ENVS } from '@src/common/env.js';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import HTTP_STATUS_CODES from './common/HttpStatusCodes.js';
+import { CORSConfig } from './config/cors.config.js';
+import APIRouter from './routes/index.js';
 
 
 /******************************************************************************
@@ -26,15 +24,15 @@ app.use(cookieParser());
 
 // Basic middleware
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 // Show routes called in console during development
-if (ENV.NodeEnv === NODE_ENVS.Dev) {
+if (ENV.NODE_ENV === NODE_ENVS.DEVELOPMENT) {
   app.use(morgan('dev'));
 }
 
 // Security
-if (ENV.NodeEnv === NODE_ENVS.Production) {
+if (ENV.NODE_ENV === NODE_ENVS.PRODUCTION) {
   // eslint-disable-next-line n/no-process-env
   if (!process.env.DISABLE_HELMET) {
     app.use(helmet());
@@ -44,15 +42,12 @@ if (ENV.NodeEnv === NODE_ENVS.Production) {
 app.use('/api', APIRouter);
 
 // Add error handler
-app.use((err: Error, _: Request, res: Response, next: NextFunction) => {
-  if (ENV.NodeEnv !== NODE_ENVS.Test.valueOf()) {
-    logger.err(err, true);
+app.use((err: Error, _: Request, res: Response, _next: NextFunction) => {
+  if (ENV.NODE_ENV !== NODE_ENVS.TEST.valueOf()) {
+    console.error(err, true);
   }
-  if (err instanceof RouteError) {
-    const status = err.status;
-    res.status(status).json({ error: err.message });
-  }
-  return next(err);
+
+  res.status(HTTP_STATUS_CODES.InternalServerError).json({ message: err?.message ?? 'Something went wrong' });
 });
 
 /******************************************************************************
