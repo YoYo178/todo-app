@@ -7,7 +7,7 @@ export function generateAccessToken(data: TAccessTokenPayload): string {
   const accessToken = jwt.sign(
     data,
     ENV.ACCESS_TOKEN_SECRET,
-    { expiresIn: (tokenConfig.accessToken?.expiry ?? 3 * 60 * 60 * 1000) / 1000 }, // Note: JWT takes expiry time in seconds, not milliseconds.
+    { expiresIn: (tokenConfig['accessToken']?.expiry ?? 3 * 60 * 60 * 1000) / 1000 }, // Note: JWT takes expiry time in seconds, not milliseconds.
   );
 
   return accessToken;
@@ -17,7 +17,7 @@ export function generateRefreshToken(data: TRefreshTokenPayload): string {
   const refreshToken = jwt.sign(
     data,
     ENV.REFRESH_TOKEN_SECRET,
-    { expiresIn: (tokenConfig.refreshToken?.expiry ?? 7 * 24 * 60 * 60 * 1000) / 1000 }, // Note: JWT takes expiry time in seconds, not milliseconds.
+    { expiresIn: (tokenConfig['refreshToken']?.expiry ?? 7 * 24 * 60 * 60 * 1000) / 1000 }, // Note: JWT takes expiry time in seconds, not milliseconds.
   );
 
   return refreshToken;

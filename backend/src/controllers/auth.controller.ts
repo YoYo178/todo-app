@@ -29,12 +29,12 @@ export const login = async (req: Request, res: Response) => {
 
   res.cookie('accessToken', accessToken, {
     ...cookieConfig,
-    maxAge: tokenConfig.accessToken?.expiry ?? 3 * 60 * 60 * 1000,
+    maxAge: tokenConfig['accessToken']?.expiry ?? 3 * 60 * 60 * 1000,
   });
 
   res.cookie('refreshToken', refreshToken, {
     ...cookieConfig,
-    maxAge: tokenConfig.refreshToken?.expiry ?? 7 * 24 * 60 * 60 * 1000,
+    maxAge: tokenConfig['refreshToken']?.expiry ?? 7 * 24 * 60 * 60 * 1000,
   });
 
   res.status(HTTP_STATUS_CODES.Ok).json({

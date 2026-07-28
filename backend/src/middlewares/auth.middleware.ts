@@ -94,7 +94,7 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
 
   // Handle silent access token refresh
   if (authDetails.data.accessToken)
-    res.cookie('accessToken', authDetails.data.accessToken, { ...cookieConfig, maxAge: tokenConfig.accessToken?.expiry ?? 3 * 60 * 60 * 1000 });
+    res.cookie('accessToken', authDetails.data.accessToken, { ...cookieConfig, maxAge: tokenConfig['accessToken']?.expiry ?? 3 * 60 * 60 * 1000 });
 
   if (authDetails.data.user) {
     const user = authDetails.data.user;

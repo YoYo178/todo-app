@@ -13,54 +13,48 @@
   },
   "type": "module",
   "scripts": {
-    "build": "pnpm run lint && tsc --build tsconfig.json && tsc-alias",
-    "build:no-lint": "tsc --build tsconfig.json && tsc-alias",
     "clean": "node --eval \"fs.rmSync('dist',{recursive:true,force:true})\"",
     "dev": "cross-env NODE_ENV=development tsx --env-file=./config/.env.development src/index.ts",
-    "dev:hot": "nodemon --exec \"pnpm run dev\" --watch ./src --ext .ts",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "build": "pnpm run lint && tsc --build tsconfig.json && tsc-alias",
+    "build:no-lint": "tsc --build tsconfig.json && tsc-alias",
+    "typecheck": "tsc --noEmit",
     "start": "cross-env NODE_ENV=production node --env-file=./config/.env.production ./dist",
-    "phantom-start": "cross-env NODE_ENV=production node ./dist",
-    "type-check": "tsc --noEmit"
+    "start:no-env": "cross-env NODE_ENV=production node ./dist",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint . --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
   },
   "engines": {
     "node": ">=24"
   },
   "dependencies": {
-    "argon2": "^0.44.0",
+    "argon2": "^0.45.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "cross-env": "^10.1.0",
-    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.7.4",
+    "mongoose": "^9.8.0",
     "morgan": "^1.11.0",
+    "winston": "^3.19.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "@stylistic/eslint-plugin": "^5.10.0",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/morgan": "^1.9.10",
     "@types/node": "^26.1.1",
-    "eslint": "^10.7.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-n": "^18.2.2",
-    "globals": "^17.7.0",
-    "nodemon": "^3.1.14",
-    "prettier": "^3.9.5",
+    "oxlint": "^1.75.0",
+    "prettier": "^3.9.6",
     "tsc-alias": "^1.9.1",
     "tsx": "^4.23.1",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.64.0"
+    "typescript": "^7.0.2"
   },
-  "packageManager": "pnpm@11.13.0+sha512.88d94724d8f2e6c186744a5584c6e59ecac869ec7ba15e9cb4cd628e8dc7066820b2481d8ee3b51ea8da323a7378068aa58c556a3720d32b7c20a051d088363a",
+  "packageManager": "pnpm@11.17.0+sha512.cca3cea332ad254bb84145f966d19f4879615210346fc92c79a047f23a0d7b3cca3c3792f0076ba1f1831d277efbcf0a9119b31a9a60eca7fb3d6231f331ef72",
   "_moduleAliases": {
     "@src": "dist"
   }

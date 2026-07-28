@@ -1,8 +1,4 @@
-import path from 'path';
-import dotenv from 'dotenv';
 import z from 'zod';
-
-dotenv.config({ path: path.resolve(import.meta.dirname.split('src')[0]!, './config/.env') });
 
 const envSchema = z.object({
   PORT: z.coerce.number().default(3000),

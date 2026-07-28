@@ -34,7 +34,7 @@ if (ENV.NODE_ENV === NODE_ENVS.DEVELOPMENT) {
 // Security
 if (ENV.NODE_ENV === NODE_ENVS.PRODUCTION) {
   // eslint-disable-next-line n/no-process-env
-  if (!process.env.DISABLE_HELMET) {
+  if (!ENV.DISABLE_HELMET) {
     app.use(helmet());
   }
 }

@@ -1,16 +1,12 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import { useAuthContext } from "../contexts/AuthContext";
+import { useAuthContext } from '../contexts/AuthContext';
 
 export const ProtectedRouteLayout = () => {
-    const { auth } = useAuthContext();
-    const location = useLocation();
+  const { auth } = useAuthContext();
+  const location = useLocation();
 
-    return (
-        !!auth ? (
-            <Outlet />
-        ) : (
-            <Navigate to="/login" state={{ from: location }} replace />
-        )
-    );
-}
+  if (!auth?.id) return <Navigate to='/login' state={{ from: location }} replace />;
+
+  return <Outlet />;
+};
