@@ -8,9 +8,8 @@ export const connectDB = async () => {
   } catch (error) {
     let reason = 'Unknown reason';
 
-    if (error instanceof Error)
-      reason = error.message;
+    if (error instanceof Error) reason = error.message;
 
-    console.error('Couldn\'t connect to MongoDB!\nReason: ' + reason);
+    console.error("Couldn't connect to MongoDB!\nReason: " + reason);
   }
 };

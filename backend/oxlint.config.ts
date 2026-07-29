@@ -2,13 +2,7 @@
 import { defineConfig } from 'oxlint';
 
 export default defineConfig({
-  ignorePatterns: [
-    '**/node_modules/**',
-    '**/*.js',
-    '**/*.mjs',
-    'dist/**',
-    'eslint.config.ts',
-  ],
+  ignorePatterns: ['**/node_modules/**', '**/*.js', '**/*.mjs', 'dist/**', 'eslint.config.ts'],
 
   rules: {
     'no-console': 'off',

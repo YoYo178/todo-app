@@ -1,10 +1,10 @@
-import { useMutationBase } from "../useMutationBase";
-import { APIEndpoints } from "../../../config/api.config";
+import { useMutationBase } from '../useMutationBase';
+import { APIEndpoints } from '../../../config/api.config';
 
 export interface TSignupBody {
-    name: string;
-    email: string;
-    password: string;
+  name: string;
+  email: string;
+  password: string;
 }
 
-export const useSignupMutation = useMutationBase<TSignupBody>(APIEndpoints.SIGNUP, "Sign up");
+export const useSignupMutation = useMutationBase<TSignupBody>(APIEndpoints.SIGNUP, 'Sign up');

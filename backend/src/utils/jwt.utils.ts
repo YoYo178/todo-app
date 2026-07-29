@@ -1,6 +1,10 @@
 import ENV from '@src/common/env.js';
 import { tokenConfig } from '@src/config/jwt.config.js';
-import type { TAccessTokenPayload, TDecodedToken, TRefreshTokenPayload } from '@src/types/jwt.types.js';
+import type {
+  TAccessTokenPayload,
+  TDecodedToken,
+  TRefreshTokenPayload,
+} from '@src/types/jwt.types.js';
 import jwt from 'jsonwebtoken';
 
 export function generateAccessToken(data: TAccessTokenPayload): string {
@@ -29,7 +33,10 @@ export function verifyAccessToken(token: string): TDecodedToken<TAccessTokenPayl
     return { valid: true, expired: false, data: decoded };
   } catch (err) {
     const error = err as jwt.JsonWebTokenError;
-    console.error('An error occured while verifying access token!\nError details: ' + (error.message ?? 'Unknown error'));
+    console.error(
+      'An error occured while verifying access token!\nError details: ' +
+        (error.message ?? 'Unknown error'),
+    );
 
     if (err instanceof jwt.TokenExpiredError)
       return { valid: true, expired: true, data: {} as TAccessTokenPayload };
@@ -44,7 +51,10 @@ export function verifyRefreshToken(token: string): TDecodedToken<TRefreshTokenPa
     return { valid: true, expired: false, data: decoded };
   } catch (err) {
     const error = err as jwt.JsonWebTokenError;
-    console.error('An error occured while verifying refresh token!\nError details: ' + (error.message ?? 'Unknown error'));
+    console.error(
+      'An error occured while verifying refresh token!\nError details: ' +
+        (error.message ?? 'Unknown error'),
+    );
 
     if (err instanceof jwt.TokenExpiredError)
       return { valid: true, expired: true, data: {} as TAccessTokenPayload };

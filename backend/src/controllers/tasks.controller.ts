@@ -15,7 +15,9 @@ export const getTask = async (req: Request, res: Response) => {
   const task = await Task.findById(taskId);
 
   if (!task) {
-    res.status(HTTP_STATUS_CODES.NotFound).json({ success: false, error: 'No task found by the specified ID!' });
+    res
+      .status(HTTP_STATUS_CODES.NotFound)
+      .json({ success: false, error: 'No task found by the specified ID!' });
     return;
   }
 
@@ -27,7 +29,9 @@ export const createTask = async (req: Request, res: Response) => {
 
   const task = await Task.create({ userId: req.user.id, title, description, rating });
 
-  res.status(HTTP_STATUS_CODES.Created).json({ success: true, message: 'Task created successfully', data: { task } });
+  res
+    .status(HTTP_STATUS_CODES.Created)
+    .json({ success: true, message: 'Task created successfully', data: { task } });
 };
 
 export const updateTask = async (req: Request, res: Response) => {
@@ -37,22 +41,23 @@ export const updateTask = async (req: Request, res: Response) => {
   const task = await Task.findById(taskId);
 
   if (!task) {
-    res.status(HTTP_STATUS_CODES.NotFound).json({ success: false, error: 'No task found by the specified ID!' });
+    res
+      .status(HTTP_STATUS_CODES.NotFound)
+      .json({ success: false, error: 'No task found by the specified ID!' });
     return;
   }
 
-  if (title?.trim())
-    task.title = title;
+  if (title?.trim()) task.title = title;
 
-  if (description?.trim())
-    task.description = description;
+  if (description?.trim()) task.description = description;
 
-  if (rating !== undefined)
-    task.rating = rating;
+  if (rating !== undefined) task.rating = rating;
 
   await task.save();
 
-  res.status(HTTP_STATUS_CODES.Ok).json({ success: true, message: 'Updated task successfully', data: { task } });
+  res
+    .status(HTTP_STATUS_CODES.Ok)
+    .json({ success: true, message: 'Updated task successfully', data: { task } });
 };
 
 export const deleteTask = async (req: Request, res: Response) => {
@@ -61,7 +66,9 @@ export const deleteTask = async (req: Request, res: Response) => {
   const task = await Task.findOneAndDelete({ _id: taskId, userId: req.user.id });
 
   if (!task) {
-    res.status(HTTP_STATUS_CODES.NotFound).json({ success: false, error: 'No task found by the specified ID!' });
+    res
+      .status(HTTP_STATUS_CODES.NotFound)
+      .json({ success: false, error: 'No task found by the specified ID!' });
     return;
   }
 

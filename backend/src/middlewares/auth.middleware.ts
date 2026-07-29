@@ -6,10 +6,21 @@ import { cookieConfig } from '@src/config/cookies.config.js';
 import { tokenConfig } from '@src/config/jwt.config.js';
 import { User } from '@src/models/user.model.js';
 import type { TVerifyAuthReturn } from '@src/types/jwt.types.js';
-import { generateAccessToken, verifyAccessToken, verifyRefreshToken } from '@src/utils/jwt.utils.js';
+import {
+  generateAccessToken,
+  verifyAccessToken,
+  verifyRefreshToken,
+} from '@src/utils/jwt.utils.js';
 
-const verifyAuth = async (refreshToken?: string, accessToken?: string): Promise<TVerifyAuthReturn> => {
-  const returnObj: TVerifyAuthReturn = { success: false, isMaliciousUser: false, data: { user: null } };
+const verifyAuth = async (
+  refreshToken?: string,
+  accessToken?: string,
+): Promise<TVerifyAuthReturn> => {
+  const returnObj: TVerifyAuthReturn = {
+    success: false,
+    isMaliciousUser: false,
+    data: { user: null },
+  };
 
   // Verify refresh token
   const decodedRefreshToken = verifyRefreshToken(refreshToken ?? '');
@@ -54,7 +65,10 @@ const verifyAuth = async (refreshToken?: string, accessToken?: string): Promise<
   }
 
   // Fetch the user via ID from database, and exclude password because we ain't need any of that
-  const user = await User.findById(decodedRefreshToken.data.user.id).select('-passwordHash').lean().exec();
+  const user = await User.findById(decodedRefreshToken.data.user.id)
+    .select('-passwordHash')
+    .lean()
+    .exec();
 
   // User not found, maybe user deleted their account but the tokens are still stored?
   if (!user) {
@@ -67,7 +81,9 @@ const verifyAuth = async (refreshToken?: string, accessToken?: string): Promise<
 
   // Silent access token refresh (yes checking this late is intentional)
   if (decodedAccessToken.expired)
-    returnObj.data.accessToken = generateAccessToken({ user: { id: user._id.toString(), email: user.email, name: user.name } });
+    returnObj.data.accessToken = generateAccessToken({
+      user: { id: user._id.toString(), email: user.email, name: user.name },
+    });
 
   // Update object state and finally return, as shrimple as that
   returnObj.success = true;
@@ -77,7 +93,10 @@ const verifyAuth = async (refreshToken?: string, accessToken?: string): Promise<
 };
 
 export const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
-  const { accessToken, refreshToken } = req.cookies as { accessToken?: string, refreshToken?: string };
+  const { accessToken, refreshToken } = req.cookies as {
+    accessToken?: string;
+    refreshToken?: string;
+  };
 
   const authDetails = await verifyAuth(refreshToken, accessToken);
 
@@ -88,13 +107,19 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
 
   if (authDetails.isMaliciousUser) {
     // TODO: Blacklist by IP
-    res.status(HTTP_STATUS_CODES.Forbidden).json({ success: false, error: 'Malicious activity detected, you have been added to the blacklist.' });
+    res.status(HTTP_STATUS_CODES.Forbidden).json({
+      success: false,
+      error: 'Malicious activity detected, you have been added to the blacklist.',
+    });
     return;
   }
 
   // Handle silent access token refresh
   if (authDetails.data.accessToken)
-    res.cookie('accessToken', authDetails.data.accessToken, { ...cookieConfig, maxAge: tokenConfig['accessToken']?.expiry ?? 3 * 60 * 60 * 1000 });
+    res.cookie('accessToken', authDetails.data.accessToken, {
+      ...cookieConfig,
+      maxAge: tokenConfig['accessToken']?.expiry ?? 3 * 60 * 60 * 1000,
+    });
 
   if (authDetails.data.user) {
     const user = authDetails.data.user;

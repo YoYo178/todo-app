@@ -1,9 +1,9 @@
 /**
-* Hypertext Transfer Protocol (HTTP) response status codes.
-* @see {@link https://en.wikipedia.org/wiki/List_of_HTTP_status_codes}
-* 
-* This file was copied from here: https://gist.github.com/scokmen/f813c904ef79022e84ab2409574d1b45
-*/
+ * Hypertext Transfer Protocol (HTTP) response status codes.
+ * @see {@link https://en.wikipedia.org/wiki/List_of_HTTP_status_codes}
+ *
+ * This file was copied from here: https://gist.github.com/scokmen/f813c904ef79022e84ab2409574d1b45
+ */
 const HTTP_STATUS_CODES = {
   Continue: 100,
   SwitchingProtocols: 101,
@@ -68,10 +68,9 @@ const HTTP_STATUS_CODES = {
   NetworkAuthenticationRequired: 511,
 } as const;
 
-
 /******************************************************************************
                             Export default
 ******************************************************************************/
 
-export type HttpStatusCodes = typeof HTTP_STATUS_CODES[keyof typeof HTTP_STATUS_CODES];
+export type HttpStatusCodes = (typeof HTTP_STATUS_CODES)[keyof typeof HTTP_STATUS_CODES];
 export default HTTP_STATUS_CODES;

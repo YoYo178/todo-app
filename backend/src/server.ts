@@ -9,13 +9,11 @@ import HTTP_STATUS_CODES from './common/HttpStatusCodes.js';
 import { CORSConfig } from './config/cors.config.js';
 import APIRouter from './routes/index.js';
 
-
 /******************************************************************************
                                 Setup
 ******************************************************************************/
 
 const app = express();
-
 
 // **** Middleware **** //
 
@@ -47,7 +45,9 @@ app.use((err: Error, _: Request, res: Response, _next: NextFunction) => {
     console.error(err, true);
   }
 
-  res.status(HTTP_STATUS_CODES.InternalServerError).json({ message: err?.message ?? 'Something went wrong' });
+  res
+    .status(HTTP_STATUS_CODES.InternalServerError)
+    .json({ message: err?.message ?? 'Something went wrong' });
 });
 
 /******************************************************************************

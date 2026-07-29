@@ -15,7 +15,9 @@ export const login = async (req: Request, res: Response) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    res.status(HTTP_STATUS_CODES.NotFound).json({ success: false, message: 'No user exists with the specified email.' });
+    res
+      .status(HTTP_STATUS_CODES.NotFound)
+      .json({ success: false, message: 'No user exists with the specified email.' });
     return;
   }
 
@@ -30,8 +32,12 @@ export const login = async (req: Request, res: Response) => {
     return;
   }
 
-  const refreshToken = generateRefreshToken({ user: { id: user._id.toString(), email: user.email } });
-  const accessToken = generateAccessToken({ user: { id: user._id.toString(), email: user.email, name: user.name } });
+  const refreshToken = generateRefreshToken({
+    user: { id: user._id.toString(), email: user.email },
+  });
+  const accessToken = generateAccessToken({
+    user: { id: user._id.toString(), email: user.email, name: user.name },
+  });
 
   res.cookie('accessToken', accessToken, {
     ...cookieConfig,
@@ -77,10 +83,12 @@ export const signup = async (req: Request, res: Response) => {
 
   const hashedPassword = await argon2.hash(password);
 
-  const emailExists = !!await User.findOne({ email }).select('-password').lean();
+  const emailExists = !!(await User.findOne({ email }).select('-password').lean());
 
   if (emailExists) {
-    res.status(HTTP_STATUS_CODES.Conflict).json({ success: false, message: 'An account already exists with this email!' });
+    res
+      .status(HTTP_STATUS_CODES.Conflict)
+      .json({ success: false, message: 'An account already exists with this email!' });
     return;
   }
 
@@ -102,5 +110,7 @@ export const signup = async (req: Request, res: Response) => {
 };
 
 export const getMe = (req: Request, res: Response) => {
-  res.status(HTTP_STATUS_CODES.Ok).json({ success: true, message: 'You are logged in', data: { user: req.user } });
+  res
+    .status(HTTP_STATUS_CODES.Ok)
+    .json({ success: true, message: 'You are logged in', data: { user: req.user } });
 };
