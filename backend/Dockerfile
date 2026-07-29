@@ -1,31 +1,48 @@
-FROM node:26-alpine AS builder
+### Base Stage ###
+FROM node:26-alpine AS base
+
+# Starting Node v25, Corepack is no longer shipped by default
+RUN npm install -g corepack \
+    corepack enable
+
+### Build Stage ###
+FROM base AS builder
+
+# Set work directory and copy required files
 WORKDIR /app
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.json oxlint.config.ts ./
 
-COPY package.json pnpm-lock.yaml tsconfig.* eslint.config.ts pnpm-workspace.yaml ./
-
-# Starting node v5, corepack is no longer shipped by default
-RUN npm install -g corepack
-
-RUN corepack enable
-
+# Install dependencies
 RUN pnpm install --frozen-lockfile
 
+# Build project
 COPY . .
-
 RUN pnpm build
 
-FROM node:26-alpine AS production
+### Production Stage ###
+FROM base AS production
+
+# Set work directory
 WORKDIR /app
 
+# Install dumb-init
+RUN apk add --no-cache dumb-init
+
+# Copy required files and install dependencies
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-
-RUN npm install -g corepack
-
-RUN corepack enable
-
 RUN pnpm install --prod --frozen-lockfile
 
+# Copy built project files
 COPY --from=builder /app/dist ./dist
 
-CMD ["node", "./dist/index.js"]
+# Transfer ownership of /app to node user
+RUN chown -R node:node /app
 
+# Switch to node user
+USER node
+
+# Start the dumb-init process in order to handle PID 1 signals properly
+ENTRYPOINT ["dumb-init", "--"]
+
+# Define the project's start script
+CMD ["node", "dist/index.js"]
