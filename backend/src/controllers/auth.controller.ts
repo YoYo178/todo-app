@@ -3,8 +3,10 @@ import { cookieConfig } from '@src/config/cookies.config.js';
 import { tokenConfig } from '@src/config/jwt.config.js';
 import { User } from '@src/models/user.model.js';
 import type { TLoginBody, TSignUpBody } from '@src/schemas/auth.schema.js';
+import { handleHashMigration } from '@src/utils/auth.utils.js';
 import { generateAccessToken, generateRefreshToken } from '@src/utils/jwt.utils.js';
 import argon2 from 'argon2';
+import bcrypt from 'bcrypt';
 import type { Request, Response } from 'express';
 
 export const login = async (req: Request, res: Response) => {
@@ -17,7 +19,11 @@ export const login = async (req: Request, res: Response) => {
     return;
   }
 
-  const passwordMatches = await argon2.verify(user.password, password);
+  const passwordMatches = user.hasLegacyHashing
+    ? await bcrypt.compare(password, user.password)
+    : await argon2.verify(user.password, password);
+
+  if (user.hasLegacyHashing) await handleHashMigration(user._id.toString() ?? '', password);
 
   if (!passwordMatches) {
     res.status(HTTP_STATUS_CODES.BadRequest).json({ success: false, message: 'Invalid password!' });
